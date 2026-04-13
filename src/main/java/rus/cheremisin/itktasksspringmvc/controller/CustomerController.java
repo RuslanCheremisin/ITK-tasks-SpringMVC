@@ -9,10 +9,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import rus.cheremisin.itktasksspringmvc.DTO.MyPageResponse;
 import rus.cheremisin.itktasksspringmvc.config.MyViews;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
 import jakarta.validation.constraints.Min;
+import rus.cheremisin.itktasksspringmvc.util.PageResponseMapper;
 
 import java.util.List;
 
@@ -21,22 +23,26 @@ import java.util.List;
 @RequestMapping("/customers")
 public class CustomerController {
     private final CustomerService customerService;
+    private final PageResponseMapper mapper;
 
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, PageResponseMapper mapper) {
         this.customerService = customerService;
+        this.mapper = mapper;
     }
 
     @GetMapping
     @JsonView(MyViews.UserSummary.class)
-    public ResponseEntity<Page<Customer>> getAllCustomers(
+    public ResponseEntity<List<Customer>> getAllCustomers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "true") boolean ascending) {
         Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        return ResponseEntity.ok(customerService.getAllCustomers(pageable));
+        Page<Customer> customerPage = customerService.getAllCustomers(pageable);
+        MyPageResponse<Customer> myPageResponse = mapper.mapCustomerPageResponse(customerPage);
+        return ResponseEntity.ok(myPageResponse.content());
     }
 
     @GetMapping("/{id}")
@@ -46,20 +52,19 @@ public class CustomerController {
     }
 
     @PostMapping()
-    @JsonView(MyViews.UserDetails.class)
+    @JsonView(MyViews.UserSummary.class)
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
         return ResponseEntity.ok(customerService.addCustomer(customer));
     }
 
     @PutMapping("/{id}")
-    @JsonView(MyViews.UserDetails.class)
+    @JsonView(MyViews.UserSummary.class)
     public ResponseEntity<Customer> editCustomer(@PathVariable("id") @Min(1) Long id,
                                                  Customer customer) {
         return ResponseEntity.ok(customerService.editCustomer(id, customer));
     }
 
     @DeleteMapping("/{id}")
-    @JsonView(MyViews.UserDetails.class)
     public ResponseEntity<Void> deleteCustomer(@PathVariable("id") @Min(1) Long id) {
         customerService.deleteCustomerById(id);
         return ResponseEntity.noContent().build();
