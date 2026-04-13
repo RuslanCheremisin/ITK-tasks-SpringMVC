@@ -53,8 +53,7 @@ public class CustomerServiceImpl implements CustomerService {
             existingCustomer.setEmail(updatedCustomer.getEmail());
             List<ShoppingOrder> updatedShoppingOrders = updatedCustomer.getOrders();
             if (updatedShoppingOrders != null) {
-                existingCustomer.getOrders().clear();
-                existingCustomer.getOrders().addAll(updatedCustomer.getOrders());
+                existingCustomer.setShoppingOrders(updatedCustomer.getOrders());
             } else {
                 throw new OrderListIsNullException("Order list is null!");
             }

@@ -15,13 +15,12 @@ public class Customer {
     private String lastName;
     private String email;
     @OneToMany(mappedBy = "customer")
-    private List<ShoppingOrder> shoppingOrders;
+    private List<ShoppingOrder> shoppingOrders = new ArrayList<>();
 
-    public Customer(String firstName, String lastName, String email, List<ShoppingOrder> shoppingOrders) {
+    public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.shoppingOrders = new ArrayList<>();
     }
 
     public Customer() {
@@ -57,5 +56,9 @@ public class Customer {
 
     public List<ShoppingOrder> getOrders() {
         return shoppingOrders;
+    }
+
+    public void setShoppingOrders(List<ShoppingOrder> shoppingOrders) {
+        this.shoppingOrders = shoppingOrders;
     }
 }
