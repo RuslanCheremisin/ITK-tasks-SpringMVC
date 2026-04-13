@@ -9,12 +9,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import rus.cheremisin.itktasksspringmvc.DTO.MyPageResponse;
 import rus.cheremisin.itktasksspringmvc.config.MyViews;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
 import jakarta.validation.constraints.Min;
-import rus.cheremisin.itktasksspringmvc.util.PageResponseMapper;
 
 import java.util.List;
 
@@ -23,12 +21,10 @@ import java.util.List;
 @RequestMapping("/customers")
 public class CustomerController {
     private final CustomerService customerService;
-    private final PageResponseMapper mapper;
 
     @Autowired
-    public CustomerController(CustomerService customerService, PageResponseMapper mapper) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.mapper = mapper;
     }
 
     @GetMapping
@@ -41,8 +37,7 @@ public class CustomerController {
         Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Customer> customerPage = customerService.getAllCustomers(pageable);
-        MyPageResponse<Customer> myPageResponse = mapper.mapCustomerPageResponse(customerPage);
-        return ResponseEntity.ok(myPageResponse.content());
+        return ResponseEntity.ok(customerPage.getContent());
     }
 
     @GetMapping("/{id}")
