@@ -7,6 +7,7 @@ import rus.cheremisin.itktasksspringmvc.config.MyViews;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Customer {
@@ -32,6 +33,13 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     @JsonView(MyViews.UserDetails.class)
     private List<ShoppingOrder> shoppingOrders = new ArrayList<>();
+
+    public Customer(Long id, String firstName, String lastName, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 
     public Customer(String firstName, String lastName, String email) {
         this.firstName = firstName;
@@ -76,5 +84,23 @@ public class Customer {
 
     public void setShoppingOrders(List<ShoppingOrder> shoppingOrders) {
         this.shoppingOrders = shoppingOrders;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+        return Objects.equals(id, customer.id) && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(email, customer.email) && Objects.equals(shoppingOrders, customer.shoppingOrders);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(id);
+        result = 31 * result + Objects.hashCode(firstName);
+        result = 31 * result + Objects.hashCode(lastName);
+        result = 31 * result + Objects.hashCode(email);
+        result = 31 * result + Objects.hashCode(shoppingOrders);
+        return result;
     }
 }

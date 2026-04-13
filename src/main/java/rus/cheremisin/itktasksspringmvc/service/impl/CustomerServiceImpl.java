@@ -8,7 +8,7 @@ import rus.cheremisin.itktasksspringmvc.dao.CustomerDAO;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
 import rus.cheremisin.itktasksspringmvc.entity.ShoppingOrder;
 import rus.cheremisin.itktasksspringmvc.exception.CustomerNotFoundException;
-import rus.cheremisin.itktasksspringmvc.exception.OrderListIsNullException;
+import rus.cheremisin.itktasksspringmvc.exception.ShoppingOrderListIsNullException;
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new NullPointerException("cannot add null customer");
         }
         if (customer.getShoppingOrders() == null) {
-            throw new OrderListIsNullException("Order list is null!");
+            throw new ShoppingOrderListIsNullException("Order list is null!");
         }
         return customerDAO.save(customer);
     }
@@ -66,7 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
             if (updatedShoppingOrders != null) {
                 existingCustomer.setShoppingOrders(updatedCustomer.getShoppingOrders());
             } else {
-                throw new OrderListIsNullException("Order list is null!");
+                throw new ShoppingOrderListIsNullException("Order list is null!");
             }
             return customerDAO.save(existingCustomer);
         } else {
@@ -78,7 +78,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void deleteCustomerById(Long id) {
         Optional<Customer> customerOptional = customerDAO.findById(id);
         if (customerOptional.isEmpty()) {
-            throw new NoSuchElementException("no customer with such ID");
+            throw new CustomerNotFoundException("no customer with such ID");
         }
         customerDAO.delete(customerOptional.get());
     }
