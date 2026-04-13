@@ -2,20 +2,20 @@ package rus.cheremisin.itktasksspringmvc.config;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import rus.cheremisin.itktasksspringmvc.exception.NoCustomerFoundException;
-import rus.cheremisin.itktasksspringmvc.exception.NoOrderFoundException;
+import rus.cheremisin.itktasksspringmvc.exception.CustomerNotFoundException;
+import rus.cheremisin.itktasksspringmvc.exception.OrderNotFoundException;
 
 @ControllerAdvice
 public class MyExceptionHandler {
     //  Rus Cheremisin, все реализации - плейсхолдеры, поэтому и одинаковые
 
-    @ExceptionHandler(NoCustomerFoundException.class)
-    public void handleNoCustomerFoundException(NoCustomerFoundException ex) {
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public void handleNoCustomerFoundException(CustomerNotFoundException ex) {
         System.out.println(ex.fillInStackTrace() + "\n" + ex.getMessage());
     }
 
-    @ExceptionHandler(NoOrderFoundException.class)
-    public void handleNoOrderFoundException(NoOrderFoundException ex) {
+    @ExceptionHandler(OrderNotFoundException.class)
+    public void handleNoOrderFoundException(OrderNotFoundException ex) {
         System.out.println(ex.fillInStackTrace() + "\n" + ex.getMessage());
     }
 
