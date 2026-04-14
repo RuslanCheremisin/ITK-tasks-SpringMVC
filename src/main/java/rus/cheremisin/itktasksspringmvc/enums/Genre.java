@@ -1,0 +1,46 @@
+package rus.cheremisin.itktasksspringmvc.enums;
+
+public enum Genre {
+    SCI_FI,
+    FANTASY,
+    DYSTOPIA,
+    ALTERNATE_HISTORY,
+
+    HISTORY,
+    BIOGRAPHY,
+    AUTOBIOGRAPHY,
+    MEMOIR,
+
+    POETRY,
+    DRAMA,
+    CLASSIC,
+    LITERARY_FICTION,
+
+    ROMANCE,
+    CONTEMPORARY,
+    YOUNG_ADULT,
+    CHILDREN,
+
+    THRILLER,
+    MYSTERY,
+    DETECTIVE,
+    CRIME,
+    HORROR,
+
+    ADVENTURE,
+    ACTION,
+
+    ACADEMIC,
+    SCIENCE,
+    PHILOSOPHY,
+    PSYCHOLOGY,
+    SELF_HELP,
+    BUSINESS,
+    TECHNOLOGY,
+
+    RELIGION,
+    SPIRITUALITY,
+
+    COMICS,
+    GRAPHIC_NOVEL
+}
