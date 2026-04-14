@@ -91,7 +91,7 @@ public class CustomerControllerTest {
     @Test
     @DisplayName("getCustomerById должен вернуть 400 при id = null")
     void getCustomerById_withNullId_shouldReturnBadRequest() throws Exception {
-        mockMvc.perform(get("/customers/999")
+        mockMvc.perform(get("/customers/null")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
