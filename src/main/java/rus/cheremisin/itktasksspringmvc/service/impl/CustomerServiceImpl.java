@@ -12,7 +12,6 @@ import rus.cheremisin.itktasksspringmvc.exception.ShoppingOrderListIsNullExcepti
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -27,6 +26,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Page<Customer> getAllCustomers(Pageable pageable) {
+        if (pageable == null) {
+            throw new NullPointerException("pageable is null!");
+        }
         return customerDAO.findAll(pageable);
     }
 

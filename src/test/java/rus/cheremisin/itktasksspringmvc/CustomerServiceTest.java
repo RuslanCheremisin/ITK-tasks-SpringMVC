@@ -5,19 +5,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
 import rus.cheremisin.itktasksspringmvc.exception.CustomerNotFoundException;
 import rus.cheremisin.itktasksspringmvc.exception.ShoppingOrderListIsNullException;
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
 import rus.cheremisin.itktasksspringmvc.util.TestObjectFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -93,7 +90,7 @@ public class CustomerServiceTest {
 
     @Test
     @DisplayName("getAllCustomers Должен вернуть Page of <Customer>")
-    void getAllCustomers_shouldReturnListOfCustomers() {
+    void getAllCustomers_shouldReturnPageOfCustomers() {
         Pageable pageable = testObjectFactory.getPageable();
         Page<Customer> customerPage = testObjectFactory.getCustomerPage();
 
@@ -103,6 +100,14 @@ public class CustomerServiceTest {
 
         assertThat(customers).isNotNull();
         assertThat(customers).isEqualTo(testObjectFactory.getCustomerPage());
+    }
+
+    @Test
+    @DisplayName("getAllCustomers Должен выбросить NullPointerException если Pageable null")
+    void getAllCustomers_shouldNullPointerException() {
+
+        when(service.getAllCustomers(null)).thenThrow(NullPointerException.class);
+        assertThatThrownBy(() -> service.getAllCustomers(null)).isInstanceOf(NullPointerException.class);
     }
 
     @Test

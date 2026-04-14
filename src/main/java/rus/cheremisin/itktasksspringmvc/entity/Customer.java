@@ -1,7 +1,12 @@
 package rus.cheremisin.itktasksspringmvc.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Pattern;
 import rus.cheremisin.itktasksspringmvc.config.MyViews;
 
@@ -14,24 +19,24 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
-    @JsonView(MyViews.UserDetails.class)
+    @JsonView(MyViews.CustomerDetails.class)
     private Long id;
 
-    @JsonView(MyViews.UserSummary.class)
+    @JsonView(MyViews.CustomerSummary.class)
     private String firstName;
 
-    @JsonView(MyViews.UserSummary.class)
+    @JsonView(MyViews.CustomerSummary.class)
     private String lastName;
 
     @Pattern(
             regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$",
             message = "Incorrect email format"
     )
-    @JsonView(MyViews.UserSummary.class)
+    @JsonView(MyViews.CustomerSummary.class)
     private String email;
 
     @OneToMany(mappedBy = "customer")
-    @JsonView(MyViews.UserDetails.class)
+    @JsonView(MyViews.CustomerDetails.class)
     private List<ShoppingOrder> shoppingOrders = new ArrayList<>();
 
     public Customer(Long id, String firstName, String lastName, String email) {

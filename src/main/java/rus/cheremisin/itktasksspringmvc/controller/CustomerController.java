@@ -1,6 +1,7 @@
 package rus.cheremisin.itktasksspringmvc.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,7 +9,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import rus.cheremisin.itktasksspringmvc.config.MyViews;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
@@ -28,7 +37,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    @JsonView(MyViews.UserSummary.class)
+    @JsonView(MyViews.CustomerSummary.class)
     public ResponseEntity<List<Customer>> getAllCustomers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -41,21 +50,21 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    @JsonView(MyViews.UserDetails.class)
+    @JsonView(MyViews.CustomerDetails.class)
     public ResponseEntity<Customer> getCustomerById(@PathVariable("id") @Min(1) Long id) {
         return ResponseEntity.ok(customerService.getCustomerById(id));
     }
 
     @PostMapping()
-    @JsonView(MyViews.UserSummary.class)
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
+    @JsonView(MyViews.CustomerSummary.class)
+    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer) {
         return ResponseEntity.ok(customerService.addCustomer(customer));
     }
 
     @PutMapping("/{id}")
-    @JsonView(MyViews.UserSummary.class)
+    @JsonView(MyViews.CustomerSummary.class)
     public ResponseEntity<Customer> editCustomer(@PathVariable("id") @Min(1) Long id,
-                                                 Customer customer) {
+                                                 @Valid @RequestBody Customer customer) {
         return ResponseEntity.ok(customerService.editCustomer(id, customer));
     }
 

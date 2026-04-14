@@ -1,7 +1,11 @@
 package rus.cheremisin.itktasksspringmvc.util;
 
 import lombok.Getter;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
 
 import java.util.List;
@@ -14,7 +18,8 @@ public class TestObjectFactory {
     private Customer validCustomer2 = new Customer("Stepan", "Stepanov", "stepan@stepanov.net");
     private Customer validCustomerWithGeneratedId = new Customer(1L,"Ivan", "Ivanov", "ivan@ivanov.net");
     private Customer validCustomerWithGeneratedId2 = new Customer(2L,"Stepan", "Stepanov", "stepan@stepanov.net");
-    private List<Customer> customerList = List.of(validCustomerWithGeneratedId, validCustomerWithGeneratedId2);
+    private List<Customer> customerList = List.of(validCustomer, validCustomer2);
+    private List<Customer> customerListWithId = List.of(validCustomerWithGeneratedId, validCustomerWithGeneratedId2);
     private Pageable pageable = PageRequest.of(0, 10, Sort.by("id").ascending());
     private Page<Customer> customerPage = new PageImpl<>(customerList, pageable, 100);
 }

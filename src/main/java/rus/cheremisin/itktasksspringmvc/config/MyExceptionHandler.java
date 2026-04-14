@@ -1,27 +1,55 @@
 package rus.cheremisin.itktasksspringmvc.config;
 
+import jakarta.validation.ConstraintViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import rus.cheremisin.itktasksspringmvc.exception.CustomerNotFoundException;
 import rus.cheremisin.itktasksspringmvc.exception.OrderNotFoundException;
+import rus.cheremisin.itktasksspringmvc.exception.ShoppingOrderListIsNullException;
 
 @ControllerAdvice
 public class MyExceptionHandler {
-    //  Rus Cheremisin, все реализации - плейсхолдеры, поэтому и одинаковые
 
     @ExceptionHandler(CustomerNotFoundException.class)
-    public void handleNoCustomerFoundException(CustomerNotFoundException ex) {
-        System.out.println(ex.fillInStackTrace() + "\n" + ex.getMessage());
+    public ResponseEntity<String> handleNoCustomerFoundException() {
+        return ResponseEntity
+                .notFound()
+                .build();
     }
 
     @ExceptionHandler(OrderNotFoundException.class)
-    public void handleNoOrderFoundException(OrderNotFoundException ex) {
-        System.out.println(ex.fillInStackTrace() + "\n" + ex.getMessage());
+    public ResponseEntity<String> handleNoOrderFoundException(OrderNotFoundException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public void handleNullPointerException(NullPointerException ex) {
-        System.out.println(ex.fillInStackTrace() + "\n" + ex.getMessage());
+    public ResponseEntity<String> handleNullPointerException(NullPointerException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
     }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> handleConstraintViolationException(
+            ConstraintViolationException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ShoppingOrderListIsNullException.class)
+    public ResponseEntity<String> handleShoppingOrderListIsNullException(
+            ShoppingOrderListIsNullException ex) {
+
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
+
+
 
 }
