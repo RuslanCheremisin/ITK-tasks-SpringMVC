@@ -1,6 +1,7 @@
 package rus.cheremisin.itktasksspringmvc.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rus.cheremisin.itktasksspringmvc.DTO.AuthorDTO;
 import rus.cheremisin.itktasksspringmvc.dao.AuthorDAO;
@@ -9,6 +10,7 @@ import rus.cheremisin.itktasksspringmvc.exceptions.AuthorNotFoundException;
 import rus.cheremisin.itktasksspringmvc.mapper.AuthorMapper;
 import rus.cheremisin.itktasksspringmvc.service.AuthorService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +44,13 @@ public class AuthorServiceImpl implements AuthorService {
             throw new AuthorNotFoundException("no author by that name is found");
         }
         return authorMapper.toDto(authorOptional.get());
+    }
+
+    @Override
+    public List<AuthorDTO> getAllAuthors(Pageable pageable) {
+        if (pageable == null) {
+            throw new NullPointerException("pageable is null!");
+        }
+        return authorMapper.toDtoList(dao.findAll(pageable).toList());
     }
 }

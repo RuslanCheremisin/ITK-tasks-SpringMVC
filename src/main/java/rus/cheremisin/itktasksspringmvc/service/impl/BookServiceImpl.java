@@ -1,9 +1,9 @@
 package rus.cheremisin.itktasksspringmvc.service.impl;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import rus.cheremisin.itktasksspringmvc.DTO.AuthorDTO;
 import rus.cheremisin.itktasksspringmvc.DTO.BookDTO;
 import rus.cheremisin.itktasksspringmvc.dao.AuthorDAO;
 import rus.cheremisin.itktasksspringmvc.dao.BookDAO;
@@ -14,6 +14,7 @@ import rus.cheremisin.itktasksspringmvc.exceptions.AuthorNotFoundException;
 import rus.cheremisin.itktasksspringmvc.exceptions.BookNotFoundException;
 import rus.cheremisin.itktasksspringmvc.exceptions.GenreListIsNullException;
 import rus.cheremisin.itktasksspringmvc.mapper.BookMapper;
+import rus.cheremisin.itktasksspringmvc.service.AuthorService;
 import rus.cheremisin.itktasksspringmvc.service.BookService;
 
 import java.util.List;
@@ -25,11 +26,14 @@ public class BookServiceImpl implements BookService {
     private final BookDAO bookDAO;
     private final BookMapper bookMapper;
     private final AuthorDAO authorDAO;
+    private final AuthorService authorService;
+
     @Autowired
-    public BookServiceImpl(BookDAO bookDAO, BookMapper bookMapper, AuthorDAO authorDAO) {
+    public BookServiceImpl(BookDAO bookDAO, BookMapper bookMapper, AuthorDAO authorDAO, AuthorService authorService) {
         this.bookDAO = bookDAO;
         this.bookMapper = bookMapper;
         this.authorDAO = authorDAO;
+        this.authorService = authorService;
     }
 
     @Override
@@ -45,7 +49,19 @@ public class BookServiceImpl implements BookService {
         if (dto == null) {
             throw new NullPointerException("cannot add null book");
         }
+        AuthorDTO authorDTO = dto.author();
+
+        Optional<Author> authorOptional = authorDAO.findAuthorByLastNameAndFirstName(authorDTO.lastName(), authorDTO.firstName());
+
         Book newBook = bookMapper.toBook(dto);
+        Author author = null;
+        if (authorOptional.isEmpty()) {
+            author = new Author(authorDTO.firstName(), authorDTO.lastName(), authorDTO.alias(), authorDTO.birthYear());
+            authorDAO.save(author);
+            newBook.setAuthor(author);
+        } else {
+            newBook.setAuthor(authorOptional.get());
+        }
         return bookMapper.toDto(bookDAO.save(newBook));
     }
 

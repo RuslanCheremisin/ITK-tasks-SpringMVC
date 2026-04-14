@@ -1,6 +1,5 @@
 package rus.cheremisin.itktasksspringmvc.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -27,7 +26,7 @@ public class Book {
 
     private String title;
 
-    @ManyToOne(targetEntity = Author.class, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(targetEntity = Author.class)
     private Author author;
 
     private int publishingYear;
@@ -37,7 +36,6 @@ public class Book {
     private List<Genre> genres;
 
     private String description;
-
 
 
     public Book(String title, Author author, int publishingYear, List<Genre> genres, String description) {
