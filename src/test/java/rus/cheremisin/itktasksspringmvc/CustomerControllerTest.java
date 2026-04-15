@@ -139,7 +139,7 @@ public class CustomerControllerTest {
     @DisplayName("addCustomer должен вернуть 400 если shoppingOrders = null")
     void addCustomer_withNullOrders_shouldReturnBadRequest() throws Exception {
         Customer customer = testObjectFactory.getValidCustomer();
-        customer.setShoppingOrders(null);
+        customer.setOrders(null);
 
         when(service.addCustomer(any()))
                 .thenThrow(new ShoppingOrderListIsNullException("Order list is null!"));
@@ -200,7 +200,7 @@ public class CustomerControllerTest {
     @DisplayName("editCustomer должен вернуть 400 если shoppingOrders = null")
     void editCustomer_withNullOrders_shouldReturnBadRequest() throws Exception {
         Customer customer = testObjectFactory.getValidCustomer();
-        customer.setShoppingOrders(null);
+        customer.setOrders(null);
 
         when(service.editCustomer(any(), any()))
                 .thenThrow(new ShoppingOrderListIsNullException("Order list is null!"));

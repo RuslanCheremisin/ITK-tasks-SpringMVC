@@ -151,7 +151,7 @@ public class CustomerServiceTest {
     void editCustomer_shouldThrowShoppingOrderListIsNullExceptionWhenShoppingOrderIsNull() {
         Long validId = testObjectFactory.getValidId();
         Customer validCustomerToEdit = testObjectFactory.getValidCustomer2();
-        validCustomerToEdit.setShoppingOrders(null);
+        validCustomerToEdit.setOrders(null);
 
         when(service.editCustomer(validId, validCustomerToEdit)).thenThrow(ShoppingOrderListIsNullException.class);
         assertThatThrownBy(() -> service.editCustomer(validId, validCustomerToEdit)).isInstanceOf(ShoppingOrderListIsNullException.class);

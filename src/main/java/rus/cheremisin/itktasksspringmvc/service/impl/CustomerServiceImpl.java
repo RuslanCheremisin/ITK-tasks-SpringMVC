@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rus.cheremisin.itktasksspringmvc.dao.CustomerDAO;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
-import rus.cheremisin.itktasksspringmvc.entity.ShoppingOrder;
+import rus.cheremisin.itktasksspringmvc.entity.Order;
 import rus.cheremisin.itktasksspringmvc.exception.CustomerNotFoundException;
 import rus.cheremisin.itktasksspringmvc.exception.ShoppingOrderListIsNullException;
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
@@ -46,9 +46,9 @@ public class CustomerServiceImpl implements CustomerService {
         if (customer == null) {
             throw new NullPointerException("cannot add null customer");
         }
-        if (customer.getShoppingOrders() == null) {
-            throw new ShoppingOrderListIsNullException("Order list is null!");
-        }
+//        if (customer.getOrders() == null) {
+//            throw new ShoppingOrderListIsNullException("Order list is null!");
+//        }
         return customerDAO.save(customer);
     }
 
@@ -64,12 +64,12 @@ public class CustomerServiceImpl implements CustomerService {
             existingCustomer.setFirstName(updatedCustomer.getFirstName());
             existingCustomer.setLastName(updatedCustomer.getLastName());
             existingCustomer.setEmail(updatedCustomer.getEmail());
-            List<ShoppingOrder> updatedShoppingOrders = updatedCustomer.getShoppingOrders();
-            if (updatedShoppingOrders != null) {
-                existingCustomer.setShoppingOrders(updatedCustomer.getShoppingOrders());
-            } else {
-                throw new ShoppingOrderListIsNullException("Order list is null!");
-            }
+//            List<Order> updatedOrders = updatedCustomer.getOrders();
+//            if (updatedOrders != null) {
+//                existingCustomer.setOrders(updatedCustomer.getOrders());
+//            } else {
+//                throw new ShoppingOrderListIsNullException("Order list is null!");
+//            }
             return customerDAO.save(existingCustomer);
         } else {
             throw new NullPointerException("cannot update from null customer");
