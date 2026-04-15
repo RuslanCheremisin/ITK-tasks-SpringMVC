@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import rus.cheremisin.itktasksspringmvc.dao.ProductDAO;
+import rus.cheremisin.itktasksspringmvc.dao.ProductRepository;
 import rus.cheremisin.itktasksspringmvc.entity.Product;
 import rus.cheremisin.itktasksspringmvc.exception.ProductNotFoundException;
 import rus.cheremisin.itktasksspringmvc.service.ProductService;
@@ -14,11 +14,11 @@ import java.util.Optional;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductDAO productDAO;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public ProductServiceImpl(ProductDAO productDAO) {
-        this.productDAO = productDAO;
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -26,12 +26,12 @@ public class ProductServiceImpl implements ProductService {
         if (pageable == null) {
             throw new NullPointerException("pageable is null!");
         }
-        return productDAO.findAll(pageable);
+        return productRepository.findAll(pageable);
     }
 
     @Override
     public Product getProductById(Long id) {
-        Optional<Product> productOptional = productDAO.findById(id);
+        Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isEmpty()) {
             throw new ProductNotFoundException("no product with such ID");
         }
@@ -43,13 +43,13 @@ public class ProductServiceImpl implements ProductService {
         if (product == null) {
             throw new NullPointerException("cannot add null product");
         }
-        return productDAO.save(product);
+        return productRepository.save(product);
     }
 
 
     @Override
     public Product editProduct(Long id, Product updatedProduct) {
-        Optional<Product> productOptional = productDAO.findById(id);
+        Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isEmpty()) {
             throw new ProductNotFoundException("no product with such ID");
         }
@@ -60,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
             existingProduct.setPrice(updatedProduct.getPrice());
             existingProduct.setQuantityInStock(updatedProduct.getQuantityInStock());
 
-            return productDAO.save(existingProduct);
+            return productRepository.save(existingProduct);
         } else {
             throw new NullPointerException("cannot update from null product");
         }
@@ -68,10 +68,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProductById(Long id) {
-        Optional<Product> productOptional = productDAO.findById(id);
+        Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isEmpty()) {
             throw new ProductNotFoundException("no product with such ID");
         }
-        productDAO.delete(productOptional.get());
+        productRepository.delete(productOptional.get());
     }
 }

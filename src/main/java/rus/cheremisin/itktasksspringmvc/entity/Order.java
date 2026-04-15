@@ -3,10 +3,11 @@ package rus.cheremisin.itktasksspringmvc.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Setter;
-import rus.cheremisin.itktasksspringmvc.enums.ShoppingOrderStatus;
+import rus.cheremisin.itktasksspringmvc.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "orders")
@@ -23,7 +24,7 @@ public class Order {
     private Customer customer;
 
     @OneToMany
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 
     private LocalDate orderDate;
 
@@ -32,16 +33,14 @@ public class Order {
     private BigDecimal totalPrice;
 
     @Enumerated
-    private ShoppingOrderStatus orderStatus;
+    private OrderStatus orderStatus;
 
     public Order(Customer customer,
-                 List<Product> products,
                  LocalDate orderDate,
                  String shippingAddress,
                  BigDecimal totalPrice,
-                 ShoppingOrderStatus orderStatus) {
+                 OrderStatus orderStatus) {
         this.customer = customer;
-        this.products = products;
         this.orderDate = orderDate;
         this.shippingAddress = shippingAddress;
         this.totalPrice = totalPrice;

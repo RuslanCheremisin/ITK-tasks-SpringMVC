@@ -54,6 +54,12 @@ public class Customer {
         this.email = email;
     }
 
+    public Customer(Long id, String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     public Customer() {
     }
 

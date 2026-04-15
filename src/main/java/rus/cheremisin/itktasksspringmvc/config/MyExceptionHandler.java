@@ -4,9 +4,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import rus.cheremisin.itktasksspringmvc.exception.CustomerNotFoundException;
-import rus.cheremisin.itktasksspringmvc.exception.OrderNotFoundException;
-import rus.cheremisin.itktasksspringmvc.exception.ShoppingOrderListIsNullException;
+import rus.cheremisin.itktasksspringmvc.exception.*;
 
 @ControllerAdvice
 public class MyExceptionHandler {
@@ -41,10 +39,24 @@ public class MyExceptionHandler {
                 .body(ex.getMessage());
     }
 
-    @ExceptionHandler(ShoppingOrderListIsNullException.class)
+    @ExceptionHandler(OrderListIsNullException.class)
     public ResponseEntity<String> handleShoppingOrderListIsNullException(
-            ShoppingOrderListIsNullException ex) {
+            OrderListIsNullException ex) {
 
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(JsonToObjectMappingException.class)
+    public ResponseEntity<String> handleJsonToObjectMappingException(JsonToObjectMappingException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ObjectToJsonMappingException.class)
+    public ResponseEntity<String> handleObjectToJsonMappingException(ObjectToJsonMappingException ex) {
         return ResponseEntity
                 .badRequest()
                 .body(ex.getMessage());

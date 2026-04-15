@@ -4,24 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import rus.cheremisin.itktasksspringmvc.dao.CustomerDAO;
+import rus.cheremisin.itktasksspringmvc.dao.CustomerRepository;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
-import rus.cheremisin.itktasksspringmvc.entity.Order;
 import rus.cheremisin.itktasksspringmvc.exception.CustomerNotFoundException;
-import rus.cheremisin.itktasksspringmvc.exception.ShoppingOrderListIsNullException;
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private final CustomerDAO customerDAO;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public CustomerServiceImpl(CustomerDAO customerDAO) {
-        this.customerDAO = customerDAO;
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -29,12 +26,12 @@ public class CustomerServiceImpl implements CustomerService {
         if (pageable == null) {
             throw new NullPointerException("pageable is null!");
         }
-        return customerDAO.findAll(pageable);
+        return customerRepository.findAll(pageable);
     }
 
     @Override
     public Customer getCustomerById(Long id) {
-        Optional<Customer> customerOptional = customerDAO.findById(id);
+        Optional<Customer> customerOptional = customerRepository.findById(id);
         if (customerOptional.isEmpty()) {
             throw new CustomerNotFoundException("no customer with such ID");
         }
@@ -49,13 +46,13 @@ public class CustomerServiceImpl implements CustomerService {
 //        if (customer.getOrders() == null) {
 //            throw new ShoppingOrderListIsNullException("Order list is null!");
 //        }
-        return customerDAO.save(customer);
+        return customerRepository.save(customer);
     }
 
 
     @Override
     public Customer editCustomer(Long id, Customer updatedCustomer) {
-        Optional<Customer> customerOptional = customerDAO.findById(id);
+        Optional<Customer> customerOptional = customerRepository.findById(id);
         if (customerOptional.isEmpty()) {
             throw new CustomerNotFoundException("no customer with such ID");
         }
@@ -70,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
 //            } else {
 //                throw new ShoppingOrderListIsNullException("Order list is null!");
 //            }
-            return customerDAO.save(existingCustomer);
+            return customerRepository.save(existingCustomer);
         } else {
             throw new NullPointerException("cannot update from null customer");
         }
@@ -78,10 +75,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void deleteCustomerById(Long id) {
-        Optional<Customer> customerOptional = customerDAO.findById(id);
+        Optional<Customer> customerOptional = customerRepository.findById(id);
         if (customerOptional.isEmpty()) {
             throw new CustomerNotFoundException("no customer with such ID");
         }
-        customerDAO.delete(customerOptional.get());
+        customerRepository.delete(customerOptional.get());
     }
 }

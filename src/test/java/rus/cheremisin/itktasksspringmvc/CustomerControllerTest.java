@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import rus.cheremisin.itktasksspringmvc.controller.CustomerController;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
 import rus.cheremisin.itktasksspringmvc.exception.CustomerNotFoundException;
-import rus.cheremisin.itktasksspringmvc.exception.ShoppingOrderListIsNullException;
+import rus.cheremisin.itktasksspringmvc.exception.OrderListIsNullException;
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
 import rus.cheremisin.itktasksspringmvc.util.TestObjectFactory;
 
@@ -139,10 +139,9 @@ public class CustomerControllerTest {
     @DisplayName("addCustomer должен вернуть 400 если shoppingOrders = null")
     void addCustomer_withNullOrders_shouldReturnBadRequest() throws Exception {
         Customer customer = testObjectFactory.getValidCustomer();
-        customer.setOrders(null);
 
         when(service.addCustomer(any()))
-                .thenThrow(new ShoppingOrderListIsNullException("Order list is null!"));
+                .thenThrow(new OrderListIsNullException("Order list is null!"));
 
         mockMvc.perform(post("/customers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -200,10 +199,9 @@ public class CustomerControllerTest {
     @DisplayName("editCustomer должен вернуть 400 если shoppingOrders = null")
     void editCustomer_withNullOrders_shouldReturnBadRequest() throws Exception {
         Customer customer = testObjectFactory.getValidCustomer();
-        customer.setOrders(null);
 
         when(service.editCustomer(any(), any()))
-                .thenThrow(new ShoppingOrderListIsNullException("Order list is null!"));
+                .thenThrow(new OrderListIsNullException("Order list is null!"));
 
         mockMvc.perform(put("/customers/1")
                         .contentType(MediaType.APPLICATION_JSON)

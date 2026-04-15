@@ -2,26 +2,23 @@ package rus.cheremisin.itktasksspringmvc.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import rus.cheremisin.itktasksspringmvc.config.MyViews;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
-import jakarta.validation.constraints.Min;
+import rus.cheremisin.itktasksspringmvc.service.RequestMapper;
 
 import java.util.List;
 
@@ -31,9 +28,13 @@ import java.util.List;
 public class CustomerController {
     private final CustomerService customerService;
 
+    @Qualifier("customerMapper")
+    private final RequestMapper<Customer> requestMapper;
+
     @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, RequestMapper<Customer> requestMapper) {
         this.customerService = customerService;
+        this.requestMapper = requestMapper;
     }
 
     @GetMapping
@@ -50,14 +51,22 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    @JsonView(MyViews.CustomerDetails.class)
-    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") @Min(1) Long id) {
-        return ResponseEntity.ok(customerService.getCustomerById(id));
+    public ResponseEntity<byte[]> getCustomerById(@PathVariable("id") @Min(1) Long id) {
+        Customer customer = customerService.getCustomerById(id);
+        byte[] json = requestMapper.toJsonFile(customer);
+        StringBuilder sb = new StringBuilder("attachment; filename=customer_")
+                .append(customer.getId())
+                .append(".json");
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, sb.toString())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(json);
     }
 
-    @PostMapping()
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @JsonView(MyViews.CustomerSummary.class)
-    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer) {
+    public ResponseEntity<Customer> addCustomer(@RequestParam("file") MultipartFile customerFile) {
+        Customer customer = requestMapper.toEntity(customerFile);
         return ResponseEntity.ok(customerService.addCustomer(customer));
     }
 

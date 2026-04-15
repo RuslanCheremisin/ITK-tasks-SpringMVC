@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
 import rus.cheremisin.itktasksspringmvc.exception.CustomerNotFoundException;
-import rus.cheremisin.itktasksspringmvc.exception.ShoppingOrderListIsNullException;
+import rus.cheremisin.itktasksspringmvc.exception.OrderListIsNullException;
 import rus.cheremisin.itktasksspringmvc.service.CustomerService;
 import rus.cheremisin.itktasksspringmvc.util.TestObjectFactory;
 
@@ -44,22 +44,22 @@ public class CustomerServiceTest {
 
     }
 
-    @Test
-    @DisplayName("addCustomer Должен выбросить ShoppingOrderListIsNullException, когда shoppingOrder null")
-    void addCustomer_shouldThrowShoppingOrderListIsNullExceptionWhenShoppingOrderIsNull() {
-        Customer validCustomerToAdd = testObjectFactory.getValidCustomer();
-
-        when(service.addCustomer(validCustomerToAdd)).thenThrow(ShoppingOrderListIsNullException.class);
-
-        assertThatThrownBy(() -> service.addCustomer(validCustomerToAdd)).isInstanceOf(ShoppingOrderListIsNullException.class);
-    }
+//    @Test
+//    @DisplayName("addCustomer Должен выбросить ShoppingOrderListIsNullException, когда shoppingOrder null")
+//    void addCustomer_shouldThrowShoppingOrderListIsNullExceptionWhenShoppingOrderIsNull() {
+//        Customer validCustomerToAdd = testObjectFactory.getValidCustomer();
+//
+//        when(service.addCustomer(validCustomerToAdd)).thenThrow(OrderListIsNullException.class);
+//
+//        assertThatThrownBy(() -> service.addCustomer(validCustomerToAdd)).isInstanceOf(OrderListIsNullException.class);
+//    }
 
     @Test
     @DisplayName("addCustomer Должен выбросить NullPointerException, когда Customer null")
     void addCustomer_shouldThrowNullPointerExceptionWhenCustomerIsNull() {
 
-        when(service.addCustomer(null)).thenThrow(ShoppingOrderListIsNullException.class);
-        assertThatThrownBy(() -> service.addCustomer(null)).isInstanceOf(ShoppingOrderListIsNullException.class);
+        when(service.addCustomer(null)).thenThrow(OrderListIsNullException.class);
+        assertThatThrownBy(() -> service.addCustomer(null)).isInstanceOf(OrderListIsNullException.class);
     }
 
     @Test
@@ -146,24 +146,24 @@ public class CustomerServiceTest {
         assertThatThrownBy(() -> service.editCustomer(null, validCustomerToEdit)).isInstanceOf(CustomerNotFoundException.class);
     }
 
-    @Test
-    @DisplayName("editCustomer Должен выбросить ShoppingOrderListIsNullException, когда shoppingOrder null")
-    void editCustomer_shouldThrowShoppingOrderListIsNullExceptionWhenShoppingOrderIsNull() {
-        Long validId = testObjectFactory.getValidId();
-        Customer validCustomerToEdit = testObjectFactory.getValidCustomer2();
-        validCustomerToEdit.setOrders(null);
-
-        when(service.editCustomer(validId, validCustomerToEdit)).thenThrow(ShoppingOrderListIsNullException.class);
-        assertThatThrownBy(() -> service.editCustomer(validId, validCustomerToEdit)).isInstanceOf(ShoppingOrderListIsNullException.class);
-    }
+//    @Test
+//    @DisplayName("editCustomer Должен выбросить ShoppingOrderListIsNullException, когда shoppingOrder null")
+//    void editCustomer_shouldThrowShoppingOrderListIsNullExceptionWhenShoppingOrderIsNull() {
+//        Long validId = testObjectFactory.getValidId();
+//        Customer validCustomerToEdit = testObjectFactory.getValidCustomer2();
+//        validCustomerToEdit.setOrders(null);
+//
+//        when(service.editCustomer(validId, validCustomerToEdit)).thenThrow(OrderListIsNullException.class);
+//        assertThatThrownBy(() -> service.editCustomer(validId, validCustomerToEdit)).isInstanceOf(OrderListIsNullException.class);
+//    }
 
     @Test
     @DisplayName("editCustomer Должен выбросить NullPointerException, когда Customer null")
     void editCustomer_shouldThrowNullPointerExceptionWhenCustomerIsNull() {
         Long validId = testObjectFactory.getValidId();
 
-        when(service.editCustomer(validId, null)).thenThrow(ShoppingOrderListIsNullException.class);
-        assertThatThrownBy(() -> service.editCustomer(validId, null)).isInstanceOf(ShoppingOrderListIsNullException.class);
+        when(service.editCustomer(validId, null)).thenThrow(OrderListIsNullException.class);
+        assertThatThrownBy(() -> service.editCustomer(validId, null)).isInstanceOf(OrderListIsNullException.class);
     }
 
 
