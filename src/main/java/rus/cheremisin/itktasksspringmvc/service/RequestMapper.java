@@ -50,7 +50,7 @@ public interface RequestMapper<T> {
      *
      * @param t объект для сериализации
      * @return JSON-представление объекта в виде массива байт
-     * @throws rus.cheremisin.itktasksspringmvc.exception.JsonToObjectMappingException если произошла ошибка при сериализации
+     * @throws rus.cheremisin.itktasksspringmvc.exception.ObjectToJsonMappingException если произошла ошибка при сериализации
      */
     byte[] toJsonFile(T t);
 
