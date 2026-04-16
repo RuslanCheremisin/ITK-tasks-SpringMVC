@@ -24,7 +24,7 @@ import java.io.IOException;
  *
  * <p>Использует {@link com.fasterxml.jackson.databind.ObjectMapper}
  * для преобразования данных.</p>
- *
+ * <p>
  * Для внедрения конкретной реализации {@link RequestMapper} используется
  * аннотация {@link org.springframework.beans.factory.annotation.Qualifier},
  * так как в приложении может существовать несколько мапперов для разных сущностей.

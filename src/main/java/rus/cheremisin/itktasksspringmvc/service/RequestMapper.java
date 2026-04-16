@@ -1,6 +1,7 @@
 package rus.cheremisin.itktasksspringmvc.service;
 
 import org.springframework.web.multipart.MultipartFile;
+
 /**
  * Обобщённый интерфейс для преобразования данных между
  * файловым представлением (например, JSON) и сущностями приложения.
@@ -37,10 +38,9 @@ public interface RequestMapper<T> {
      *
      * @param file multipart-файл с JSON-данными
      * @return десериализованный объект
-     * @throws rus.cheremisin.itktasksspringmvc.exception.JsonToObjectMappingException
-     *         если произошла ошибка при чтении или преобразовании данных
+     * @throws rus.cheremisin.itktasksspringmvc.exception.JsonToObjectMappingException если произошла ошибка при чтении или преобразовании данных
      */
-    T toEntity (MultipartFile file);
+    T toEntity(MultipartFile file);
 
     /**
      * Сериализует объект в JSON и возвращает его в виде массива байт.
@@ -50,8 +50,7 @@ public interface RequestMapper<T> {
      *
      * @param t объект для сериализации
      * @return JSON-представление объекта в виде массива байт
-     * @throws rus.cheremisin.itktasksspringmvc.exception.JsonToObjectMappingException
-     *         если произошла ошибка при сериализации
+     * @throws rus.cheremisin.itktasksspringmvc.exception.JsonToObjectMappingException если произошла ошибка при сериализации
      */
     byte[] toJsonFile(T t);
 
