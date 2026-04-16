@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import rus.cheremisin.itktasksspringmvc.exception.*;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @ControllerAdvice
 public class MyExceptionHandler {
 
@@ -57,6 +59,12 @@ public class MyExceptionHandler {
 
     @ExceptionHandler(ObjectToJsonMappingException.class)
     public ResponseEntity<String> handleObjectToJsonMappingException(ObjectToJsonMappingException ex) {
+        return ResponseEntity
+                .badRequest()
+                .body(ex.getMessage());
+    }
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<String> handleSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
         return ResponseEntity
                 .badRequest()
                 .body(ex.getMessage());
