@@ -33,7 +33,8 @@ public class CustomerServiceTest {
                         testObjectFactory.getValidId(),
                         validCustomerToAdd.getFirstName(),
                         validCustomerToAdd.getLastName(),
-                        validCustomerToAdd.getEmail()));
+                        validCustomerToAdd.getEmail(),
+                        validCustomerToAdd.getContactNumber()));
 
         Customer newCustomer = service.addCustomer(testObjectFactory.getValidCustomer());
         Customer customerWithGeneratedId = testObjectFactory.getValidCustomerWithGeneratedId();
@@ -43,16 +44,6 @@ public class CustomerServiceTest {
         assertThat(newCustomer).isEqualTo(customerWithGeneratedId);
 
     }
-
-//    @Test
-//    @DisplayName("addCustomer Должен выбросить ShoppingOrderListIsNullException, когда shoppingOrder null")
-//    void addCustomer_shouldThrowShoppingOrderListIsNullExceptionWhenShoppingOrderIsNull() {
-//        Customer validCustomerToAdd = testObjectFactory.getValidCustomer();
-//
-//        when(service.addCustomer(validCustomerToAdd)).thenThrow(OrderListIsNullException.class);
-//
-//        assertThatThrownBy(() -> service.addCustomer(validCustomerToAdd)).isInstanceOf(OrderListIsNullException.class);
-//    }
 
     @Test
     @DisplayName("addCustomer Должен выбросить NullPointerException, когда Customer null")
@@ -145,17 +136,6 @@ public class CustomerServiceTest {
         when(service.editCustomer(null, validCustomerToEdit)).thenThrow(CustomerNotFoundException.class);
         assertThatThrownBy(() -> service.editCustomer(null, validCustomerToEdit)).isInstanceOf(CustomerNotFoundException.class);
     }
-
-//    @Test
-//    @DisplayName("editCustomer Должен выбросить ShoppingOrderListIsNullException, когда shoppingOrder null")
-//    void editCustomer_shouldThrowShoppingOrderListIsNullExceptionWhenShoppingOrderIsNull() {
-//        Long validId = testObjectFactory.getValidId();
-//        Customer validCustomerToEdit = testObjectFactory.getValidCustomer2();
-//        validCustomerToEdit.setOrders(null);
-//
-//        when(service.editCustomer(validId, validCustomerToEdit)).thenThrow(OrderListIsNullException.class);
-//        assertThatThrownBy(() -> service.editCustomer(validId, validCustomerToEdit)).isInstanceOf(OrderListIsNullException.class);
-//    }
 
     @Test
     @DisplayName("editCustomer Должен выбросить NullPointerException, когда Customer null")

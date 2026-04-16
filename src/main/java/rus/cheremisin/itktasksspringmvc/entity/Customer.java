@@ -42,22 +42,23 @@ public class Customer {
             regexp = "^\\+7\\s9\\d{2}\\s\\d{3}\\s\\d{2}\\s\\d{2}$",
             message = "Incorrect phone number format. Use '+7 9хх ххх хх хх' (with SPACES!)"
     )
+    @JsonView(MyViews.CustomerSummary.class)
     private String contactNumber;
 
-//    @OneToMany(mappedBy = "customer")
-//    @JsonView(MyViews.CustomerDetails.class)
-//    private List<Order> orders = new ArrayList<>();
 
-    public Customer(String firstName, String lastName, String email) {
+    public Customer(Long id, String firstName, String lastName, String email, String contactNumber) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.contactNumber = contactNumber;
     }
 
-    public Customer(Long id, String firstName, String lastName, String email) {
+    public Customer(String firstName, String lastName, String email, String contactNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.contactNumber = contactNumber;
     }
 
     public Customer() {
