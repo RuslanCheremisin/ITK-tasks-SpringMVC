@@ -20,7 +20,6 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "customer_id", nullable = false)
     @JsonView(MyViews.CustomerDetails.class)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @JsonView(MyViews.CustomerSummary.class)

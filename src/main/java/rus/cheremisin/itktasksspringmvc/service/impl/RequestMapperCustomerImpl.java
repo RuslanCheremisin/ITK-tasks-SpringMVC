@@ -48,6 +48,7 @@ public class RequestMapperCustomerImpl implements RequestMapper<Customer> {
         try {
             byte[] json = multipartFile.getBytes();
             Customer customer = mapper.readValue(json, Customer.class);
+            customer.setId(null);
             file.createNewFile();
             mapper.writeValue(file, customer);
             return customer;

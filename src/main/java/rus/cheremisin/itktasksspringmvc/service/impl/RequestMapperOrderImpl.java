@@ -48,6 +48,7 @@ public class RequestMapperOrderImpl implements RequestMapper<Order> {
             byte[] json = multipartFile.getBytes();
             Order order = mapper.readValue(json, Order.class);
             file.createNewFile();
+            order.setOrderId(null);
             mapper.writeValue(file, order);
             return order;
         } catch (IOException e) {

@@ -49,6 +49,7 @@ public class RequestMapperProductImpl implements RequestMapper<Product> {
             byte[] json = multipartFile.getBytes();
             Product product = mapper.readValue(json, Product.class);
             file.createNewFile();
+            product.setProductId(null);
             mapper.writeValue(file, product);
             return product;
         } catch (IOException e) {

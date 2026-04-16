@@ -1,14 +1,7 @@
 package rus.cheremisin.itktasksspringmvc.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Setter;
 import rus.cheremisin.itktasksspringmvc.enums.OrderStatus;
@@ -25,14 +18,13 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long orderId;
 
 
     @ManyToOne(targetEntity = Customer.class)
     private Customer customer;
 
-    @OneToMany
+    @ManyToMany
     private List<Product> products = new ArrayList<>();
 
     private LocalDate orderDate;
