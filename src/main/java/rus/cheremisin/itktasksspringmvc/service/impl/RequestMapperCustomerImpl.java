@@ -12,6 +12,24 @@ import rus.cheremisin.itktasksspringmvc.service.RequestMapper;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Реализация {@link RequestMapper} для сущности {@link rus.cheremisin.itktasksspringmvc.entity.Customer}.
+ *
+ * <p>Отвечает за:</p>
+ * <ul>
+ *     <li>Десериализацию JSON-файла в объект Customer</li>
+ *     <li>Сериализацию объекта Customer в JSON</li>
+ *     <li>Сохранение входящих JSON-файлов в файловую систему (inbound)</li>
+ * </ul>
+ *
+ * <p>Использует {@link com.fasterxml.jackson.databind.ObjectMapper}
+ * для преобразования данных.</p>
+ *
+ * Для внедрения конкретной реализации {@link RequestMapper} используется
+ * аннотация {@link org.springframework.beans.factory.annotation.Qualifier},
+ * так как в приложении может существовать несколько мапперов для разных сущностей.
+ */
+
 @Service
 @Qualifier("customerMapper")
 public class RequestMapperCustomerImpl implements RequestMapper<Customer> {
@@ -30,7 +48,6 @@ public class RequestMapperCustomerImpl implements RequestMapper<Customer> {
         try {
             byte[] json = multipartFile.getBytes();
             Customer customer = mapper.readValue(json, Customer.class);
-            customer.setId(null);
             file.createNewFile();
             mapper.writeValue(file, customer);
             return customer;

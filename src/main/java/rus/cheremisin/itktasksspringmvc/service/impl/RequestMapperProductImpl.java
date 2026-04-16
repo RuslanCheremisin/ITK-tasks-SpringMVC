@@ -12,6 +12,24 @@ import rus.cheremisin.itktasksspringmvc.service.RequestMapper;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Реализация {@link RequestMapper} для сущности {@link rus.cheremisin.itktasksspringmvc.entity.Product}.
+ *
+ * <p>Отвечает за:</p>
+ * <ul>
+ *     <li>Десериализацию JSON-файла в объект Product</li>
+ *     <li>Сериализацию объекта Product в JSON</li>
+ *     <li>Сохранение входящих JSON-файлов в файловую систему (inbound)</li>
+ * </ul>
+ *
+ * <p>Использует {@link com.fasterxml.jackson.databind.ObjectMapper}
+ * для преобразования данных.</p>
+ *
+ * Для внедрения конкретной реализации {@link RequestMapper} используется
+ * аннотация {@link org.springframework.beans.factory.annotation.Qualifier},
+ * так как в приложении может существовать несколько мапперов для разных сущностей.
+ */
+
 @Service
 @Qualifier("productMapper")
 public class RequestMapperProductImpl implements RequestMapper<Product> {
@@ -30,7 +48,6 @@ public class RequestMapperProductImpl implements RequestMapper<Product> {
         try {
             byte[] json = multipartFile.getBytes();
             Product product = mapper.readValue(json, Product.class);
-            product.setProductId(null);
             file.createNewFile();
             mapper.writeValue(file, product);
             return product;

@@ -13,7 +13,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import rus.cheremisin.itktasksspringmvc.config.MyViews;
 import rus.cheremisin.itktasksspringmvc.entity.Customer;
@@ -21,6 +29,21 @@ import rus.cheremisin.itktasksspringmvc.service.CustomerService;
 import rus.cheremisin.itktasksspringmvc.service.RequestMapper;
 
 import java.util.List;
+
+/**
+ * REST-контроллер для управления сущностями {@link rus.cheremisin.itktasksspringmvc.entity.Customer}.
+ *
+ * <p>Поддерживает операции:</p>
+ * <ul>
+ *     <li>Получение списка покупателей с пагинацией и сортировкой</li>
+ *     <li>Получение покупателя по идентификатору (с возможностью скачивания в JSON)</li>
+ *     <li>Создание покупателя через загрузку JSON-файла</li>
+ *     <li>Обновление покупателя</li>
+ *     <li>Удаление покупателя</li>
+ * </ul>
+ *
+ * <p>Для преобразования данных используется {@link RequestMapper}.</p>
+ */
 
 @RestController
 @Validated

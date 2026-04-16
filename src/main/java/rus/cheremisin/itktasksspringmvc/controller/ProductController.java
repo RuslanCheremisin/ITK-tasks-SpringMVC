@@ -28,6 +28,21 @@ import rus.cheremisin.itktasksspringmvc.service.RequestMapper;
 
 import java.util.List;
 
+/**
+ * REST-контроллер для управления сущностями {@link rus.cheremisin.itktasksspringmvc.entity.Product}.
+ *
+ * <p>Поддерживает операции:</p>
+ * <ul>
+ *     <li>Получение списка продуктов с пагинацией и сортировкой</li>
+ *     <li>Получение продукта по идентификатору (с возможностью скачивания в JSON)</li>
+ *     <li>Создание продукта через загрузку JSON-файла</li>
+ *     <li>Обновление продукта</li>
+ *     <li>Удаление продукта</li>
+ * </ul>
+ *
+ * <p>Для преобразования данных используется {@link RequestMapper}.</p>
+ */
+
 @RestController
 @Validated
 @RequestMapping("/products")

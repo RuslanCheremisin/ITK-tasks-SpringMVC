@@ -23,11 +23,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import rus.cheremisin.itktasksspringmvc.entity.Order;
-import rus.cheremisin.itktasksspringmvc.entity.Product;
 import rus.cheremisin.itktasksspringmvc.service.OrderService;
 import rus.cheremisin.itktasksspringmvc.service.RequestMapper;
 
 import java.util.List;
+
+/**
+ * REST-контроллер для управления сущностями {@link rus.cheremisin.itktasksspringmvc.entity.Order}.
+ *
+ * <p>Поддерживает операции:</p>
+ * <ul>
+ *     <li>Получение списка заказов с пагинацией и сортировкой</li>
+ *     <li>Получение заказа по идентификатору (с возможностью скачивания в JSON)</li>
+ *     <li>Создание заказа через загрузку JSON-файла</li>
+ * </ul>
+ *
+ * <p>Для преобразования данных используется {@link RequestMapper}.</p>
+ */
 
 @RestController
 @Validated

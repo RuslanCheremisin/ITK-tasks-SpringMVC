@@ -12,6 +12,24 @@ import rus.cheremisin.itktasksspringmvc.service.RequestMapper;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Реализация {@link RequestMapper} для сущности {@link rus.cheremisin.itktasksspringmvc.entity.Order}.
+ *
+ * <p>Отвечает за:</p>
+ * <ul>
+ *     <li>Десериализацию JSON-файла в объект Order</li>
+ *     <li>Сериализацию объекта Order в JSON</li>
+ *     <li>Сохранение входящих JSON-файлов в файловую систему (inbound)</li>
+ * </ul>
+ *
+ * <p>Использует {@link com.fasterxml.jackson.databind.ObjectMapper}
+ * для преобразования данных.</p>
+ *
+ * Для внедрения конкретной реализации {@link RequestMapper} используется
+ * аннотация {@link org.springframework.beans.factory.annotation.Qualifier},
+ * так как в приложении может существовать несколько мапперов для разных сущностей.
+ */
+
 @Service
 @Qualifier("orderMapper")
 public class RequestMapperOrderImpl implements RequestMapper<Order> {
@@ -29,7 +47,6 @@ public class RequestMapperOrderImpl implements RequestMapper<Order> {
         try {
             byte[] json = multipartFile.getBytes();
             Order order = mapper.readValue(json, Order.class);
-            order.setOrderId(null);
             file.createNewFile();
             mapper.writeValue(file, order);
             return order;

@@ -1,5 +1,6 @@
 package rus.cheremisin.itktasksspringmvc.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long orderId;
 
 

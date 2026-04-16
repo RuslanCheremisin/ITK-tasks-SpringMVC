@@ -1,5 +1,6 @@
 package rus.cheremisin.itktasksspringmvc.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,6 +24,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "customer_id", nullable = false)
     @JsonView(MyViews.CustomerDetails.class)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @JsonView(MyViews.CustomerSummary.class)
